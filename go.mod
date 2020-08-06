@@ -1,4 +1,4 @@
-module github.com/kotakanbe/go-cpe-dictionary
+module github.com/remidinishanth/go-cpe-dictionary
 
 go 1.14
 
@@ -16,7 +16,9 @@ require (
 	github.com/jinzhu/gorm v1.9.14
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/k0kubun/pp v3.0.1+incompatible
+	github.com/kisielk/gotool v1.0.0 // indirect
 	github.com/knqyf263/go-cpe v0.0.0-20180327054844-659663f6eca2
+	github.com/kotakanbe/go-cpe-dictionary v0.2.2
 	github.com/mattn/go-colorable v0.1.6 // indirect
 	github.com/onsi/ginkgo v1.13.0 // indirect
 	github.com/parnurzeal/gorequest v0.2.16
@@ -30,4 +32,7 @@ require (
 	gopkg.in/mattn/go-isatty.v0 v0.0.4 // indirect
 	gopkg.in/mattn/go-runewidth.v0 v0.0.4 // indirect
 	moul.io/http2curl v1.0.0 // indirect
+	mvdan.cc/interfacer v0.0.0-20180901003855-c20040233aed // indirect
+	mvdan.cc/lint v0.0.0-20170908181259-adc824a0674b // indirect
+	mvdan.cc/unparam v0.0.0-20200501210554-b37ab49443f7 // indirect
 )

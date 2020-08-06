@@ -7,10 +7,10 @@ import (
 
 	"github.com/google/subcommands"
 	"github.com/inconshreveable/log15"
-	c "github.com/kotakanbe/go-cpe-dictionary/config"
-	"github.com/kotakanbe/go-cpe-dictionary/db"
-	"github.com/kotakanbe/go-cpe-dictionary/nvd"
-	"github.com/kotakanbe/go-cpe-dictionary/util"
+	c "github.com/remidinishanth/go-cpe-dictionary/config"
+	"github.com/remidinishanth/go-cpe-dictionary/db"
+	"github.com/remidinishanth/go-cpe-dictionary/nvd"
+	"github.com/remidinishanth/go-cpe-dictionary/util"
 )
 
 // FetchNvdCmd : FetchNvdCmd

@@ -10,11 +10,11 @@ import (
 
 	"github.com/knqyf263/go-cpe/common"
 	"github.com/knqyf263/go-cpe/naming"
-	c "github.com/kotakanbe/go-cpe-dictionary/config"
-	"github.com/kotakanbe/go-cpe-dictionary/db"
-	"github.com/kotakanbe/go-cpe-dictionary/models"
 	"github.com/parnurzeal/gorequest"
 	"github.com/pkg/errors"
+	c "github.com/remidinishanth/go-cpe-dictionary/config"
+	"github.com/remidinishanth/go-cpe-dictionary/db"
+	"github.com/remidinishanth/go-cpe-dictionary/models"
 )
 
 // List has cpe-item list
@@ -54,16 +54,6 @@ type Title struct {
 func (item Item) GetTitleEn() string {
 	for _, t := range item.Titles {
 		if t.Lang == "en-US" {
-			return t.Value
-		}
-	}
-	return ""
-}
-
-// GetTitleJa : GetTitleJa
-func (item Item) GetTitleJa() string {
-	for _, t := range item.Titles {
-		if t.Lang == "ja-JP" {
 			return t.Value
 		}
 	}
@@ -118,7 +108,7 @@ func FetchAndInsertCpeDictioanry(driver db.DB) (err error) {
 }
 
 // ConvertNvdCpeDictionaryToModel :
-func ConvertNvdCpeDictionaryToModel(nvd CpeDictionary) (cpes []*models.CategorizedCpe, err error) {
+func ConvertNvdCpeDictionaryToModel(nvd List) (cpes []*models.CategorizedCpe, err error) {
 	for _, item := range nvd.Items {
 		var wfn common.WellFormedName
 		if wfn, err = naming.UnbindFS(item.Cpe23Item.Name); err != nil {
