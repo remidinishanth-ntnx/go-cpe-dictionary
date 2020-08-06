@@ -50,16 +50,6 @@ type Title struct {
 	Value string `xml:",chardata"`
 }
 
-// GetTitleEn : GetTitleEn
-func (item Item) GetTitleEn() string {
-	for _, t := range item.Titles {
-		if t.Lang == "en-US" {
-			return t.Value
-		}
-	}
-	return ""
-}
-
 // FetchAndInsertCPE : FetchAndInsertCPE
 func FetchAndInsertCPE(driver db.DB) (err error) {
 	if err = FetchAndInsertCpeDictioanry(driver); err != nil {

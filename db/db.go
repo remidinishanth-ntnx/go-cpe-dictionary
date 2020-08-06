@@ -20,8 +20,6 @@ func NewDB(dbType, dbpath string, debugSQL bool) (DB, error) {
 	switch dbType {
 	case dialectSqlite3, dialectMysql, dialectPostgreSQL:
 		return NewRDB(dbType, dbpath, debugSQL)
-	case dialectRedis:
-		return NewRedis(dbType, dbpath, debugSQL)
 	}
 	return nil, fmt.Errorf("Invalid database dialect, %s", dbType)
 }

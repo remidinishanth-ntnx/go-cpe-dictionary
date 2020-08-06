@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/google/subcommands"
-	"github.com/kotakanbe/go-cpe-dictionary/commands"
+	"github.com/remidinishanth/go-cpe-dictionary/commands"
 )
 
 // Name ... Name
