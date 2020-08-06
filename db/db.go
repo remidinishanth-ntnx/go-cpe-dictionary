@@ -10,8 +10,6 @@ import (
 type DB interface {
 	Name() string
 	CloseDB() error
-	GetVendorProducts() ([]string, error)
-	GetCpesByVendorProduct(string, string) ([]string, error)
 	InsertCpes([]*models.CategorizedCpe) error
 }
 
