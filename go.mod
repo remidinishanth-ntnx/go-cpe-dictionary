@@ -14,6 +14,7 @@ require (
 	github.com/k0kubun/pp v3.0.1+incompatible
 	github.com/knqyf263/go-cpe v0.0.0-20180327054844-659663f6eca2
 	github.com/mattn/go-colorable v0.1.6 // indirect
+	github.com/mattn/go-sqlite3 v1.14.0
 	github.com/parnurzeal/gorequest v0.2.16
 	github.com/pkg/errors v0.9.1
 	github.com/smartystreets/goconvey v1.6.4 // indirect

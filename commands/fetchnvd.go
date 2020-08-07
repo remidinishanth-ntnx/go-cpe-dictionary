@@ -88,10 +88,13 @@ func (p *FetchNvdCmd) Execute(_ context.Context, f *flag.FlagSet, _ ...interface
 		return subcommands.ExitUsageError
 	}
 
-	var driver db.DB
-	var err error
-	if driver, err = db.NewDB(c.Conf.DBType, c.Conf.DBPath, c.Conf.DebugSQL); err != nil {
-		log15.Error("Failed to new db.", "err", err)
+	driver, locked, err := db.NewDB(c.Conf.DBType, c.Conf.DBPath, c.Conf.DebugSQL)
+	if err != nil {
+		if locked {
+			log15.Error("Failed to Open DB. Close B connection before fetching.")
+			return subcommands.ExitFailure
+		}
+		log15.Error("Failed to open db.", "err", err)
 		return subcommands.ExitFailure
 	}
 	defer func() {

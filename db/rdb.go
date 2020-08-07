@@ -7,6 +7,7 @@ import (
 	"github.com/inconshreveable/log15"
 	"github.com/jinzhu/gorm"
 	"github.com/k0kubun/pp"
+	"github.com/mattn/go-sqlite3"
 	"github.com/remidinishanth/go-cpe-dictionary/models"
 
 	// Required MySQL.  See http://jinzhu.me/gorm/database.html#connecting-to-a-database
@@ -36,35 +37,40 @@ func (r *RDBDriver) Name() string {
 }
 
 // NewRDB return RDB driver
-func NewRDB(dbType, dbpath string, debugSQL bool) (driver *RDBDriver, err error) {
+func NewRDB(dbType, dbpath string, debugSQL bool) (driver *RDBDriver, locked bool, err error) {
 	driver = &RDBDriver{
 		name: dbType,
 	}
 
 	log15.Debug("Opening DB", "db", driver.Name())
-	if err = driver.OpenDB(dbType, dbpath, debugSQL); err != nil {
+	if locked, err = driver.OpenDB(dbType, dbpath, debugSQL); err != nil {
 		return
 	}
 
 	log15.Debug("Migrating DB.", "db", driver.Name())
 	if err = driver.MigrateDB(); err != nil {
-		return
+		return nil, false, err
 	}
-	return
+	return driver, false, nil
 }
 
 // OpenDB opens Database
-func (r *RDBDriver) OpenDB(dbType, dbPath string, debugSQL bool) (err error) {
+func (r *RDBDriver) OpenDB(dbType, dbPath string, debugSQL bool) (locked bool, err error) {
 	r.conn, err = gorm.Open(dbType, dbPath)
 	if err != nil {
-		err = fmt.Errorf("Failed to open DB. dbtype: %s, dbpath: %s, err: %s", dbType, dbPath, err)
-		return
+		if r.name == dialectSqlite3 {
+			switch err.(sqlite3.Error).Code {
+			case sqlite3.ErrLocked, sqlite3.ErrBusy:
+				return true, err
+			}
+		}
+		return false, fmt.Errorf("Failed to open DB. dbtype: %s, dbpath: %s, err: %s", dbType, dbPath, err)
 	}
 	r.conn.LogMode(debugSQL)
 	if r.name == dialectSqlite3 {
 		r.conn.Exec("PRAGMA journal_mode=WAL;")
 	}
-	return
+	return false, nil
 }
 
 // MigrateDB migrates Database
