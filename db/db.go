@@ -3,6 +3,7 @@ package db
 import (
 	"fmt"
 
+	"github.com/jinzhu/gorm"
 	"github.com/remidinishanth/go-cpe-dictionary/models"
 )
 
@@ -36,4 +37,24 @@ func chunkSlice(l []*models.CategorizedCpe, n int) chan []*models.CategorizedCpe
 		close(ch)
 	}()
 	return ch
+}
+
+// GetByExactTitle Returns the CPE strings which exactly matches the title string
+func (r *RDBDriver) GetByExactTitle(title string) ([]models.CategorizedCpe, error) {
+	cpes := []models.CategorizedCpe{}
+	err := r.conn.Where(&models.CategorizedCpe{Title: title}).Find(&cpes).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return nil, err
+	}
+	return cpes, nil
+}
+
+// GetByLikeTitle Returns the CPE strings which matches the title as substring
+func (r *RDBDriver) GetByLikeTitle(title string) ([]models.CategorizedCpe, error) {
+	cpes := []models.CategorizedCpe{}
+	err := r.conn.Where("title LIKE %?%", title).Find(&cpes).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return nil, err
+	}
+	return cpes, nil
 }
