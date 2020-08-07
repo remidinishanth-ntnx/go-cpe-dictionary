@@ -54,7 +54,8 @@ func (r *RDBDriver) GetByExactTitle(title string) ([]models.CategorizedCpe, erro
 // GetByLikeTitle Returns the CPE strings which matches the title as substring
 func (r *RDBDriver) GetByLikeTitle(title string) ([]models.CategorizedCpe, error) {
 	cpes := []models.CategorizedCpe{}
-	err := r.conn.Where("title LIKE %?%", title).Find(&cpes).Error
+	title = "%" + title + "%"
+	err := r.conn.Where("title LIKE ?", title).Find(&cpes).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
