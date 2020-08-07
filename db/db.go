@@ -12,6 +12,8 @@ type DB interface {
 	Name() string
 	CloseDB() error
 	InsertCpes([]*models.CategorizedCpe) error
+	GetByExactTitle(string) ([]models.CategorizedCpe, error)
+	GetByLikeTitle(string) ([]models.CategorizedCpe, error)
 }
 
 // NewDB return DB accessor.
